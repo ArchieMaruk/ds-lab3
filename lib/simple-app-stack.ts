@@ -111,8 +111,9 @@ export class SimpleAppStack extends cdk.Stack {
       entry: `${__dirname}/../lambdas/getMovieCastMembers.ts`,
       timeout: cdk.Duration.seconds(10),
       memorySize: 128,
-      environment: {
+            environment: {
         CAST_TABLE_NAME: movieCastsTable.tableName,
+        MOVIES_TABLE_NAME: moviesTable.tableName,
         REGION: "eu-west-1",
       },
     });
@@ -125,6 +126,7 @@ export class SimpleAppStack extends cdk.Stack {
     });
 
     // Permissions .....
+    moviesTable.grantReadData(getMovieCastMembersFn);
     moviesTable.grantReadData(getMovieByIdFn);
     moviesTable.grantReadData(getAllMoviesFn);
     movieCastsTable.grantReadData(getMovieCastMembersFn);
