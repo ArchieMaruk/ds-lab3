@@ -1,9 +1,10 @@
 import { marshall, marshallOptions, unmarshallOptions } from "@aws-sdk/util-dynamodb";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import { APIGatewayProxyResult } from "aws-lambda";
 import { Movie, MovieCast } from "./types";
 
-type Entity = Movie | MovieCast;  // NEW
+type Entity = Movie | MovieCast;
 export const generateItem = (entity: Entity) => {
   return {
     PutRequest: {
@@ -38,13 +39,12 @@ export const response = (
   statusCode: number,
   body: object,
   headers: Record<string, string> = {},
-): Record<string, any> => ({
+): APIGatewayProxyResult => ({
   statusCode,
   headers: { 'content-type': 'application/json', ...headers },
   body: JSON.stringify(body),
 });
 
-
-//Parse a path or query string ID, undefine if it isnt a positive integer
-export const parseId = (value: string | undefined): number | undefined => 
-  value !== undefined && /^[1-9]\d*$/.test(value) ? parseInt(value) : undefined;
+// Parses a path or query string ID; undefined if it isn't a positive integer.
+export const parseId = (value: string | undefined): number | undefined =>
+  value !== undefined && /^[1-9]\d*$/.test(value) ? Number(value) : undefined;
