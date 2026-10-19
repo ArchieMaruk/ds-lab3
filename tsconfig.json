@@ -21,6 +21,9 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
+    // I added this so TypeScript lets me import JSON files,
+    // like shared/types.schema.json in addCastMember.ts.
+    "resolveJsonModule": true,
     "typeRoots": [
       "./node_modules/@types"
     ],
@@ -34,5 +37,12 @@
   "exclude": [
     "node_modules",
     "cdk.out"
+  ],
+  "include": [
+    // I kept all my .ts files in here, because if "include" only listed
+    // the JSON files, the rest of my code wouldn't get checked.
+    "**/*.ts",
+    // The lab adds this so the generated schema file is part of the project.
+    "shared/*.json"
   ]
 }
