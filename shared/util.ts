@@ -43,3 +43,8 @@ export const response = (
   headers: { 'content-type': 'application/json', ...headers },
   body: JSON.stringify(body),
 });
+
+
+//Parse a path or query string ID, undefine if it isnt a positive integer
+export const parseId = (value: string | undefined): number | undefined => 
+  value !== undefined && /^[1-9]\d*$/.test(value) ? parseInt(value) : undefined;
